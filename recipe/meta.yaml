@@ -1,5 +1,4 @@
-{% set version = '1.4-3' %}
-
+{% set version = '1.4-4' %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -10,26 +9,28 @@ package:
 source:
   fn: rrcov_{{ version }}.tar.gz
   url:
-    - https://cran.r-project.org/src/contrib/rrcov_{{ version }}.tar.gz
-    - https://cran.r-project.org/src/contrib/Archive/rrcov/rrcov_{{ version }}.tar.gz
-  sha256: d89631e0dfb39777af9fe303cc0537bbc82c6f3d2a1ed360de950c13dfc34f4d
+    - {{ cran_mirror }}/src/contrib/rrcov_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/rrcov/rrcov_{{ version }}.tar.gz
+  sha256: 8569e00ec8a86db8db4fcb8a74bc81314ef2b53fa3a284a02ad37f103782c572
 
 build:
   merge_build_host: True  # [win]
-  number: 1
+  number: 0
   skip: true  # [win32]
-
   rpaths:
     - lib/R/lib/
     - lib/
 
 requirements:
   build:
-    - posix                # [win]
-    - {{ compiler('fortran') }}        # [unix]
-    - {{ compiler('m2w64_fortran') }}  # [win]
-    - {{ compiler('c') }}        # [unix]
-    - {{ compiler('m2w64_c') }}  # [win]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('fortran') }}  # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
   host:
     - r-base
     - r-cluster
@@ -37,9 +38,9 @@ requirements:
     - r-mvtnorm
     - r-pcapp
     - r-robustbase >=0.92_1
-
   run:
     - r-base
+    - {{native}}gcc-libs         # [win]
     - r-cluster
     - r-lattice
     - r-mvtnorm
@@ -48,7 +49,7 @@ requirements:
 
 test:
   commands:
-    - $R -e "library('rrcov')"  # [not win]
+    - $R -e "library('rrcov')"           # [not win]
     - "\"%R%\" -e \"library('rrcov')\""  # [win]
 
 about:
@@ -57,8 +58,14 @@ about:
   summary: Robust Location and Scatter Estimation and Robust Multivariate Analysis with High
     Breakdown Point.
   license_family: GPL3
+  license_file: '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-3'  # [unix]
+  license_file: '{{ environ["PREFIX"] }}\R\share\licenses\GPL-3'  # [win]
 
 extra:
   recipe-maintainers:
     - johanneskoester
     - bgruening
+    - daler
+    - jdblischak
+    - cbrueffer
+    - dbast
