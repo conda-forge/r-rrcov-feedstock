@@ -1,4 +1,4 @@
-{% set version = "1.5-2" %}
+{% set version = "1.5-5" %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -10,11 +10,11 @@ source:
   url:
     - {{ cran_mirror }}/src/contrib/rrcov_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/rrcov/rrcov_{{ version }}.tar.gz
-  sha256: a7641b93ca8efd91b0957adecd76f96c53d3804ace7b1cbe84872f655199c254
+  sha256: 1f7f07558e347e7d1f1adff68631764670bc672777a7d990901c4fa94cc0e629
 
 build:
-  merge_build_host: True  # [win]
-  number: 2
+  merge_build_host: true  # [win]
+  number: 0
   rpaths:
     - lib/R/lib/
     - lib/
@@ -55,10 +55,9 @@ test:
 about:
   home: https://CRAN.R-project.org/package=rrcov
   license: GPL (>= 2)
-  summary: Robust Location and Scatter Estimation and Robust Multivariate Analysis with High
-    Breakdown Point.
+  summary: Robust Location and Scatter Estimation and Robust Multivariate Analysis with High Breakdown Point.
   license_family: GPL3
-  license_file: '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2'
+  license_file: {{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2
 
 extra:
   recipe-maintainers:
