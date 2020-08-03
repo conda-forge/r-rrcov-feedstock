@@ -39,7 +39,7 @@ requirements:
     - r-robustbase >=0.92.1
   run:
     - r-base
-    - {{native}}gcc-libs         # [win]
+    - {{ native }}gcc-libs         # [win]
     - r-lattice
     - r-mvtnorm
     - r-pcapp
