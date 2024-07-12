@@ -1,6 +1,5 @@
 {% set version = "1.7-5" %}
 {% set posix = 'm2-' if win else '' %}
-{% set native = 'm2w64-' if win else '' %}
 
 package:
   name: r-rrcov
@@ -13,8 +12,7 @@ source:
   sha256: dfc595077fb65eb12653d994c757e0998c09a186575d5b61000bb5452fd0b033
 
 build:
-  merge_build_host: true  # [win]
-  number: 0
+  number: 1
   rpaths:
     - lib/R/lib/
     - lib/
@@ -22,7 +20,9 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}              # [not win]
+    - {{ stdlib("c") }}                # [not win]
     - {{ compiler('m2w64_c') }}        # [win]
+    - {{ stdlib("m2w64_c") }}          # [win]
     - {{ compiler('fortran') }}        # [not win]
     - {{ compiler('m2w64_fortran') }}  # [win]
     - {{ posix }}filesystem        # [win]
@@ -39,7 +39,6 @@ requirements:
     - r-robustbase >=0.92.1
   run:
     - r-base
-    - {{ native }}gcc-libs         # [win]
     - r-lattice
     - r-mvtnorm
     - r-pcapp
