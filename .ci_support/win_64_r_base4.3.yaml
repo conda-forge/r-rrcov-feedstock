@@ -6,6 +6,8 @@ cran_mirror:
 - https://cran.r-project.org
 libblas:
 - 3.9 *netlib
+liblapack:
+- 3.9 *netlib
 m2w64_c_compiler:
 - gcc
 m2w64_c_compiler_version:
