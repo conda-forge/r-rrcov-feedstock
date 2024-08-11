@@ -36,12 +36,13 @@ requirements:
     - {{ posix }}coreutils             # [win]
     - {{ posix }}zip                   # [win]
   host:
-    - libblas
     - r-base
     - r-lattice
     - r-mvtnorm
     - r-pcapp
     - r-robustbase >=0.92.1
+    - libblas
+    - liblapack
   run:
     - r-base
     - r-lattice
